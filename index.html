@@ -42,13 +42,14 @@
     .tooltip {
       position: relative;
       cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
     }
-    .tooltip:hover::after {
+    .tooltip::after {
       content: attr(data-tip);
       position: absolute;
       bottom: 100%;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translateX(-50%) scale(0);
       padding: 6px 10px;
       background: rgba(0,0,0,0.8);
       color: white;
@@ -57,17 +58,33 @@
       white-space: nowrap;
       z-index: 100;
       margin-bottom: 5px;
+      opacity: 0;
+      transition: all 0.2s ease;
+      pointer-events: none;
     }
-    .tooltip:hover::before {
+    .tooltip::before {
       content: '';
       position: absolute;
       bottom: 100%;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translateX(-50%) scale(0);
       border: 5px solid transparent;
       border-top-color: rgba(0,0,0,0.8);
       margin-bottom: -5px;
       z-index: 100;
+      opacity: 0;
+      transition: all 0.2s ease;
+      pointer-events: none;
+    }
+    .tooltip:hover::after, .tooltip:active::after,
+    .tooltip.active::after {
+      transform: translateX(-50%) scale(1);
+      opacity: 1;
+    }
+    .tooltip:hover::before, .tooltip:active::before,
+    .tooltip.active::before {
+      transform: translateX(-50%) scale(1);
+      opacity: 1;
     }
   </style>
 </head>
@@ -103,7 +120,7 @@
     </div>
 
     <!-- 会员卡片背景 -->
-    <div class="px-[17px] mb-4">
+    <div class="px-[16px] mb-4">
       <div class="relative w-full h-[71px] rounded-t-[20px] overflow-hidden">
         <img src="./assets/image_2.png" class="w-full h-full object-cover" />
         <!-- 装饰图 -->
@@ -124,9 +141,9 @@
     <div class="absolute left-0 right-0 top-[180px] bottom-0 bg-[#f5f5f5]" style="z-index: -1;"></div>
 
     <!-- 昨日数据统计 -->
-    <div class="flex px-[31px] mb-6 pt-4 pb-4">
+    <div class="flex px-[16px] mb-4 pt-2 pb-2">
       <!-- 昨日订单 -->
-      <div class="w-[128px] mr-[20px]">
+      <div class="flex-1">
         <div class="flex items-center mb-3">
           <span class="text-[14px] text-black mr-1">昨日有效订单(单)</span>
           <span class="tooltip" data-tip="昨日有效订单数统计"><img src="./assets/image_10.png" class="w-4 h-4" /></span>
@@ -146,9 +163,9 @@
         </div>
       </div>
       <!-- 竖线分隔 -->
-      <div class="w-[1px] h-[80px] bg-gray-200 mx-[20px] self-center"></div>
+      <div class="w-[1px] h-[80px] bg-gray-200 mx-[16px] self-center"></div>
       <!-- 昨日营业额 -->
-      <div class="w-[126px]">
+      <div class="flex-1">
         <div class="flex items-center mb-3">
           <span class="text-[14px] text-black mr-1">昨日营业额(元)</span>
           <span class="tooltip" data-tip="昨日营业额统计"><img src="./assets/image_10.png" class="w-4 h-4" /></span>
@@ -170,14 +187,14 @@
     </div>
 
     <!-- 近7日经营状况标题 -->
-    <div class="px-[29px] mb-2">
+    <div class="px-[16px] mb-2">
       <span class="text-[16px] font-medium text-black">近7日经营状况</span>
     </div>
 
     <!-- 经营数据卡片 -->
-    <div class="grid grid-cols-2 gap-[11px] px-[30px] mb-4">
+    <div class="grid grid-cols-2 gap-[8px] px-[16px] mb-4">
       <!-- 曝光量 -->
-      <div class="w-[160px] h-[80px] rounded-lg bg-white flex flex-col justify-center px-3 py-2 relative shadow-sm">
+      <div class="w-[176px] h-[90px] rounded-lg bg-white flex flex-col justify-center px-3 py-3 relative shadow-sm">
         <div class="absolute top-0 right-0 w-[23px] h-[20px] bg-[#ffe9ec] flex items-center justify-center rounded-bl-lg">
           <span class="text-[14px] text-brand-red">差</span>
         </div>
@@ -189,7 +206,7 @@
         <div class="text-[14px] text-black font-extralight">低于商圈同行12%</div>
       </div>
       <!-- 入店转化率 -->
-      <div class="w-[160px] h-[80px] rounded-lg bg-white flex flex-col justify-center px-3 py-2 relative shadow-sm">
+      <div class="w-[176px] h-[90px] rounded-lg bg-white flex flex-col justify-center px-3 py-3 relative shadow-sm">
         <div class="absolute top-0 right-0 w-[23px] h-[20px] bg-[#ffe9ec] flex items-center justify-center rounded-bl-lg">
           <span class="text-[14px] text-brand-red">差</span>
         </div>
@@ -201,7 +218,7 @@
         <div class="text-[14px] text-black font-extralight">低于商圈同行12%</div>
       </div>
       <!-- 下单转化率 -->
-      <div class="w-[160px] h-[80px] rounded-lg bg-white flex flex-col justify-center px-3 py-2 relative shadow-sm">
+      <div class="w-[176px] h-[90px] rounded-lg bg-white flex flex-col justify-center px-3 py-3 relative shadow-sm">
         <div class="absolute top-0 right-0 w-[23px] h-[20px] bg-[#ffeee0] flex items-center justify-center rounded-bl-lg">
           <span class="text-[14px] text-[#db7f33]">良</span>
         </div>
@@ -213,7 +230,7 @@
         <div class="text-[14px] text-black font-extralight">低于商圈同行12%</div>
       </div>
       <!-- 复购率 -->
-      <div class="w-[160px] h-[80px] rounded-lg bg-white flex flex-col justify-center px-3 py-2 relative shadow-sm">
+      <div class="w-[176px] h-[90px] rounded-lg bg-white flex flex-col justify-center px-3 py-3 relative shadow-sm">
         <div class="absolute top-0 right-0 w-[23px] h-[20px] bg-[#e3f3d5] flex items-center justify-center rounded-bl-lg">
           <span class="text-[14px] text-[#56b800]">优</span>
         </div>
@@ -227,7 +244,7 @@
     </div>
 
     <!-- 优化提示条 -->
-    <div class="mx-[30px] h-[24px] rounded-full bg-brand-gold flex items-center justify-between px-[13px] mb-6">
+    <div class="mx-[16px] h-[24px] rounded-full bg-brand-gold flex items-center justify-between px-[13px] mb-6">
       <div class="flex items-center">
         <div class="w-[15px] h-[15px] flex items-center justify-center mr-1">
           <img src="./assets/image_17.png" class="w-[12px] h-[14px]" />
@@ -245,7 +262,7 @@
     </div>
 
     <!-- 经营特权 -->
-    <div class="px-[29px] mb-4">
+    <div class="px-[16px] mb-4">
       <div class="relative inline-flex items-baseline gap-2">
         <span class="text-[18px] font-medium text-black relative z-10">经营特权</span>
         <span class="text-[14px] text-black font-extralight relative z-10">经营洞察</span>
@@ -254,13 +271,13 @@
     </div>
 
     <!-- 提升曝光流量 -->
-    <div class="px-[29px] mb-4">
+    <div class="px-[16px] mb-4">
       <div class="text-[16px] font-medium text-black mb-2">提升曝光流量</div>
-      <div class="flex gap-[10px]">
+      <div class="flex gap-[8px]">
         <!-- 左侧列 -->
-        <div class="w-[160px] flex flex-col gap-[10px]">
+        <div class="w-[176px] flex flex-col gap-[8px]">
           <!-- 排名特权延长 -->
-          <div class="w-[160px] h-[126px] rounded-lg bg-white p-2 shadow-sm flex flex-col justify-between">
+          <div class="w-[176px] h-[126px] rounded-lg bg-white p-2 shadow-sm flex flex-col justify-between">
             <div>
               <div class="text-[14px] font-medium text-black mb-1">排名特权延长</div>
               <div class="flex items-center">
@@ -280,7 +297,7 @@
             </div>
           </div>
           <!-- 搜索行情 -->
-          <div class="w-[160px] h-[126px] rounded-lg bg-white p-2 shadow-sm flex flex-col justify-between">
+          <div class="w-[176px] h-[126px] rounded-lg bg-white p-2 shadow-sm flex flex-col justify-between">
             <div>
               <div class="text-[14px] font-medium text-black mb-1">搜索行情</div>
               <div class="text-[12px] text-black font-light">商圈/城市热搜词排行榜</div>
@@ -293,7 +310,7 @@
           </div>
         </div>
         <!-- 右侧列 - 流量卡购买特权 -->
-        <div class="w-[160px] h-[262px] rounded-lg bg-white p-2 shadow-sm flex flex-col">
+        <div class="w-[176px] h-[262px] rounded-lg bg-white p-2 shadow-sm flex flex-col">
           <div class="text-[14px] font-medium text-black mb-2">流量卡购买特权</div>
           <!-- 优先购买 -->
           <div class="flex-1">
@@ -325,7 +342,7 @@
     </div>
 
     <!-- 提升进店转化 -->
-    <div class="px-[29px] mb-4">
+    <div class="px-[16px] mb-4">
       <div class="flex items-center justify-between mb-2">
         <span class="text-[16px] font-medium text-black">提升进店转化</span>
         <div class="flex items-center">
@@ -347,12 +364,12 @@
     </div>
 
     <!-- 提升下单转化 -->
-    <div class="px-[29px] mb-2">
+    <div class="px-[16px] mb-2">
       <span class="text-[16px] font-medium text-black">提升下单转化</span>
     </div>
-    <div class="grid grid-cols-2 gap-[11px] px-[29px] mb-[10px]">
+    <div class="grid grid-cols-2 gap-[8px] px-[16px] mb-[10px]">
       <!-- 评价置顶 -->
-      <div class="w-[160px] h-[65px] rounded-lg bg-white p-2 shadow-sm relative">
+      <div class="w-[176px] h-[65px] rounded-lg bg-white p-2 shadow-sm relative">
         <div class="absolute top-0 right-0 w-[53px] h-[20px] bg-[#ffe9ec] flex items-center justify-center rounded-bl-lg">
           <span class="text-[14px] text-brand-red">未设置</span>
         </div>
@@ -363,7 +380,7 @@
         </div>
       </div>
       <!-- 特型装修 -->
-      <div class="w-[161px] h-[65px] rounded-lg bg-white p-2 shadow-sm relative">
+      <div class="w-[177px] h-[65px] rounded-lg bg-white p-2 shadow-sm relative">
         <div class="absolute top-0 right-0 w-[53px] h-[20px] bg-[#f1f1f1] flex items-center justify-center rounded-bl-lg">
           <span class="text-[14px] text-[#b2b2b2]">已设置</span>
         </div>
@@ -374,7 +391,7 @@
         </div>
       </div>
       <!-- 热销搜索 -->
-      <div class="w-[160px] h-[65px] rounded-lg bg-white p-2 shadow-sm relative">
+      <div class="w-[176px] h-[65px] rounded-lg bg-white p-2 shadow-sm relative">
         <div class="absolute top-0 right-0 w-[53px] h-[20px] bg-[#f1f1f1] flex items-center justify-center rounded-bl-lg">
           <span class="text-[14px] text-[#b2b2b2]">已设置</span>
         </div>
@@ -385,7 +402,7 @@
         </div>
       </div>
       <!-- 发券增额 - 跨两行 -->
-      <div class="w-[165px] h-[138px] rounded-lg bg-white p-2 shadow-sm flex flex-col justify-between row-span-2">
+      <div class="w-[176px] h-[138px] rounded-lg bg-white p-2 shadow-sm flex flex-col justify-between row-span-2">
         <div>
           <div class="text-[14px] font-medium text-black mb-1">发券增额</div>
           <div class="text-[14px] text-black font-light">营销发券额度翻倍</div>
@@ -400,7 +417,7 @@
         </div>
       </div>
       <!-- 智能营销 -->
-      <div class="w-[160px] h-[65px] rounded-lg bg-white p-2 shadow-sm self-start">
+      <div class="w-[176px] h-[65px] rounded-lg bg-white p-2 shadow-sm self-start">
         <div class="text-[14px] font-medium text-black mb-1">智能营销</div>
         <div class="flex items-center justify-between">
           <span class="text-[14px] text-black font-light">获取新客稳定老客</span>
@@ -409,7 +426,7 @@
       </div>
     </div>
     <!-- 商品分析 -->
-    <div class="px-[29px]">
+    <div class="px-[16px]">
       <div class="w-full h-[65px] rounded-lg bg-white p-2 shadow-sm flex items-center">
         <div class="w-full">
           <div class="text-[14px] font-medium text-black mb-1">商品分析</div>
@@ -421,5 +438,29 @@
       </div>
     </div>
   </div>
+
+  <script>
+    // 移动端触摸支持
+    document.querySelectorAll('.tooltip').forEach(function(tooltip) {
+      tooltip.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        // 移除其他 tooltip 的 active 状态
+        document.querySelectorAll('.tooltip').forEach(function(t) {
+          t.classList.remove('active');
+        });
+        // 添加当前 tooltip 的 active 状态
+        this.classList.add('active');
+      });
+
+      // 点击其他地方关闭提示
+      document.addEventListener('touchstart', function(e) {
+        if (!e.target.closest('.tooltip')) {
+          document.querySelectorAll('.tooltip').forEach(function(t) {
+            t.classList.remove('active');
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>
